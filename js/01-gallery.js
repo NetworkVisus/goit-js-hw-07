@@ -42,5 +42,3 @@ function createMarkup(arr) {
     )
     .join("");
 }
-
-createMarkup(galleryItems);
