@@ -13,15 +13,32 @@ function handleClick(event) {
 
   const currentLink = event.target.dataset.source;
 
-  const modal = basicLightbox.create(`<div>
-  <img src ="${currentLink}"/></div>`);
+  const modal = basicLightbox.create(
+    `<div>
+  <img src ="${currentLink}"/></div>`,
+    {
+      onShow: (instance) => {
+        const modalImage = instance.element().querySelector("img");
+        modalImage.addEventListener("click", () => {
+          instance.close();
+        });
+
+        window.addEventListener("keydown", (event) => {
+          if (event.key === "Escape") {
+            modal.close();
+          }
+        });
+      },
+      onClose: (instance) =>
+        window.removeEventListener("keydown", (event) => {
+          if (event.key === "Escape") {
+            modal.close();
+          }
+        }),
+    }
+  );
 
   modal.show();
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      modal.close();
-    }
-  });
 }
 
 function createMarkup(arr) {
